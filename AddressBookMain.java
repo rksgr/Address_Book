@@ -4,6 +4,7 @@ import java.util.Set;
 import java.util.Scanner;
 
 public class AddressBookMain {
+    private Map<String, Map> address_book_system = new HashMap<>();
     private  Map<Integer, String[]> map_address_book= new HashMap<>();
     /*
     Use Case 1: Create contacts in address book
@@ -139,11 +140,45 @@ public class AddressBookMain {
         }
     }
 
+    /*
+    Use case 6: Add multiple address book to system
+    */
+    public void addAddressBook() {
+        System.out.println("Enter the number of address books you want to add to the address book system.");
+        Scanner sc1 = new Scanner(System.in);
+        int no_of_addr_books = sc1.nextInt();
+        for (int i=0;i<no_of_addr_books;i++){
+            System.out.println("Add the name of the new address book: ");
+            Scanner sc = new Scanner(System.in);
+            String addr_book_name = sc.next();
+            // create a new address book by adding contacts
+            addMultiplePerson();
+            // Add the new address book into Address Book system using its name as key
+            address_book_system.put(addr_book_name,map_address_book);
+        }
+        // Print the contents of all the address books
+        Set<String> addr_set = address_book_system.keySet();
+
+        for (String a:addr_set){
+            Map<Integer,String[]> my_addr_book = address_book_system.get(a);
+            Set<Integer> contct_set = my_addr_book.keySet();
+
+            for (int b:contct_set){
+                String[] str_contact = my_addr_book.get(b);
+
+                for (String element:str_contact){
+                    System.out.print(element + " ");
+                }
+            }
+        }
+    }
+
     public static void main(String[] args) {
         System.out.println("Welcome to Address Book Program!");
         AddressBookMain abm = new AddressBookMain();
-        abm.addContact();
+        //abm.addContact();
         //abm.editExistingContact();
-        abm.deleteExistingContact();
+        //abm.deleteExistingContact();
+        abm.addAddressBook();
     }
 }
