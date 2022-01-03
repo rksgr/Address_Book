@@ -107,10 +107,29 @@ public class AddressBookMain {
         return key;
     }
 
+    /*
+    Use case 4: Delete an existing person contact using her/his name in address book
+    */
+    public void deleteExistingContact(){
+        System.out.println("Enter the name of the person whose details you "
+                + "want to delete");
+        Scanner sc = new Scanner(System.in);
+        String search_pers = sc.next();
+        // Fetch the key of person in address book
+        int key = searchExistingContact(search_pers);
+        // delete the details of the person
+        if (map_address_book.remove(key,map_address_book.get(key))){
+            System.out.println("Deleted successfully.");
+        } else{
+            System.out.println("Given contact not deleted.");
+        }
+    }
+
     public static void main(String[] args) {
         System.out.println("Welcome to Address Book Program!");
         AddressBookMain abm = new AddressBookMain();
         abm.addContact();
-        abm.editExistingContact();
+        //abm.editExistingContact();
+        abm.deleteExistingContact();
     }
 }
