@@ -125,6 +125,20 @@ public class AddressBookMain {
         }
     }
 
+    /*
+    Use case 5 :Add multiple person to address book
+    */
+    public void addMultiplePerson(){
+        System.out.println("Enter the number of persons whose details you want "
+                + "to add to the address book");
+        Scanner sc = new Scanner(System.in);
+        int no_of_person = sc.nextInt();
+        for (int i=1;i<=no_of_person;i++){
+            // call addition method each time
+            addContact();
+        }
+    }
+
     public static void main(String[] args) {
         System.out.println("Welcome to Address Book Program!");
         AddressBookMain abm = new AddressBookMain();
