@@ -4,7 +4,7 @@ import java.util.Set;
 import java.util.Scanner;
 
 public class AddressBookMain {
-    Map<Integer, String[]> map_address_book= new HashMap<>();
+    private  Map<Integer, String[]> map_address_book= new HashMap<>();
     /*
     Use Case 1: Create contacts in address book
     */
@@ -69,9 +69,48 @@ public class AddressBookMain {
         String[] contact = new String[]{first_name,last_name,address,city,state,zip,phone_num,email};
         return contact;
     }
+
+    /*
+    Use case 3: Edit existing contact person using their name
+    */
+    public void editExistingContact(){
+        System.out.println("Enter the name of the person whose details you "
+                + "want to be changed");
+        Scanner sc = new Scanner(System.in);
+        String search_pers = sc.next();
+        int key = searchExistingContact(search_pers);
+        System.out.println("Found the name at key "+ key+ " Kindly enter new details ");
+        // Ask for the new details
+        String[] contact = enterContactDetails();
+
+        // Modify the values in the Address Book
+        map_address_book.replace(key,contact);
+
+        // Print all the contacts inside the address book
+        String [] cntct1 = map_address_book.get(key);
+        for (String s:cntct1){
+            System.out.println(s);
+        }
+
+    }
+    // Returns the key of contact details of a person in address book using his/her name
+    public Integer searchExistingContact(String search_pers){
+        int key = -1;
+        for (Integer i: map_address_book.keySet()){
+            // find key of contact in which the given name is there
+            if (map_address_book.get(i)[0].equals(search_pers)){
+                // if name is found
+                key = i;
+                break;
+            }
+        }
+        return key;
+    }
+
     public static void main(String[] args) {
         System.out.println("Welcome to Address Book Program!");
         AddressBookMain abm = new AddressBookMain();
         abm.addContact();
+        abm.editExistingContact();
     }
 }
