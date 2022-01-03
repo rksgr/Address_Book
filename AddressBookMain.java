@@ -92,7 +92,6 @@ public class AddressBookMain {
         for (String s:cntct1){
             System.out.println(s);
         }
-
     }
     // Returns the key of contact details of a person in address book using his/her name
     public Integer searchExistingContact(String search_pers){
@@ -173,12 +172,27 @@ public class AddressBookMain {
         }
     }
 
+    /*
+    Use Case 7: Ensure there is no duplicate entry of the same person in a particular address book
+     */
+    public void preventDuplicateEntry(){
+        String [] contact = enterContactDetails();
+        // search for the name in the existing address book
+        if (searchExistingContact(contact[0]) == -1){
+            System.out.println("The name "+ contact[0] +" doesn't exist in the address book. " +
+                    "So it is added to the address book.");
+            createContacts(contact);
+        }else if (searchExistingContact(contact[0]) != -1){
+            System.out.println("The name "+ contact[0]+" is already present in the address book. So it cannot be added again!");
+        }
+    }
     public static void main(String[] args) {
         System.out.println("Welcome to Address Book Program!");
         AddressBookMain abm = new AddressBookMain();
-        //abm.addContact();
+        abm.addContact();
         //abm.editExistingContact();
         //abm.deleteExistingContact();
-        abm.addAddressBook();
+        //abm.addAddressBook();
+        abm.preventDuplicateEntry();
     }
 }
