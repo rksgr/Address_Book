@@ -232,6 +232,65 @@ public class AddressBookMain {
                     " in address book " + addr_book_name + " with key of contact: " + contct_key);
         }
     }
+
+    /*
+    Use Case 9: Ability to view persons by city or state
+     */
+    public void viewPersonsByCityOrState(){
+        Map<String, ArrayList<String>> city_state_person_dict = new HashMap<>();
+
+        //indexCityOrState = 3(to view by city)  4 (to view by state)
+        for (int j=3;j<5;j++){
+            city_state_person_dict = storePersonsByCityOrState(j);
+
+            // Get list of all the city/state names and traverse through dictionary
+            Set <String> city_state_names = city_state_person_dict.keySet();
+
+            for (String city_stat_name: city_state_names){
+                System.out.println("The persons present in "+ city_stat_name + " are: ");
+                ArrayList<String> person_names = city_state_person_dict.get(city_stat_name);
+
+                for (int i=0;i<person_names.size();i++){
+                    System.out.print(person_names.get(i)+ " ");
+                }
+                System.out.println(" ");
+            }
+        }
+    }
+
+    // Returns a dictionary containing names of cities as key and persons as values
+    public Map<String, ArrayList<String>> storePersonsByCityOrState(int indexCityOrState) {
+
+        // create a new map with city name as key and names pf persons as value
+        Map<String, ArrayList<String>> city_state_person_dict = new HashMap<>();
+        Set<String> addr_set = address_book_system.keySet();
+
+        // Iterate through each address book
+        for (String a : addr_set) {
+            Map<Integer, String[]> my_addr_book = address_book_system.get(a);
+
+            // Iterate through each contact
+            for (Integer i : my_addr_book.keySet()) {
+                String city_name = my_addr_book.get(i)[indexCityOrState];
+                String person_name = my_addr_book.get(i)[0];
+                ArrayList<String> pers_name_arr = new ArrayList<>();
+
+                // If city/state name not present add new city and person (key value pair)
+                if (city_state_person_dict.get(city_name) == null){
+                    pers_name_arr.add(person_name);
+                    city_state_person_dict.put(city_name,pers_name_arr);
+                }
+                // If city/state already present, get names of all the persons in the city/state
+                // and add new person to it. Replace the old value(arraylist) with new one
+                else{
+                    pers_name_arr = city_state_person_dict.get(city_name);
+                    pers_name_arr.add(person_name);
+                    city_state_person_dict.replace(city_name,city_state_person_dict.get(city_name),pers_name_arr);
+                }
+            }
+        }
+        return city_state_person_dict;
+    }
     public static void main(String[] args) {
         System.out.println("Welcome to Address Book Program!");
         AddressBookMain abm = new AddressBookMain();
@@ -242,8 +301,8 @@ public class AddressBookMain {
         //abm.deleteExistingContact();
         abm.addAddressBook();
         //abm.preventDuplicateEntry();
-        abm.searchPersonAcrossAddressBooks();
-        //abm.viewPersonsByCityOrState();
+        //abm.searchPersonAcrossAddressBooks();
+        abm.viewPersonsByCityOrState();
         //abm.getNumOfPersons();
     }
 }
