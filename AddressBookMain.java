@@ -291,6 +291,27 @@ public class AddressBookMain {
         }
         return city_state_person_dict;
     }
+    /*
+    Use Case 10: Get number of contact persons by city or state
+     */
+    public void getNumOfPersons(){
+        // create a new map with city name as key and names pf persons as value
+        Map<String, ArrayList<String>> city_state_person_dict = new HashMap<>();
+
+        // Get count of persons in various states(index =4) and cities(index =3)
+        for (int j =4;j>2;j--) {
+            city_state_person_dict = storePersonsByCityOrState(j);
+
+            // Get list of all the city/state names and traverse through dictionary
+            Set<String> city_state_names = city_state_person_dict.keySet();
+
+            for (String city_stat_name : city_state_names) {
+                int contact_persons = city_state_person_dict.get(city_stat_name).size();
+                System.out.println("The number of contact persons in " + city_stat_name + " are: "+ contact_persons);
+            }
+        }
+    }
+    // Every time contact has to be created before we proceed further
     public static void main(String[] args) {
         System.out.println("Welcome to Address Book Program!");
         AddressBookMain abm = new AddressBookMain();
@@ -302,7 +323,7 @@ public class AddressBookMain {
         abm.addAddressBook();
         //abm.preventDuplicateEntry();
         //abm.searchPersonAcrossAddressBooks();
-        abm.viewPersonsByCityOrState();
-        //abm.getNumOfPersons();
+        //abm.viewPersonsByCityOrState();
+        abm.getNumOfPersons();
     }
 }
